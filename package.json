@@ -1,0 +1,42 @@
+{
+  "name": "grunt-aglio",
+  "description": "Grunt plugin to generate aglio documentation",
+  "version": "0.1.0",
+  "homepage": "https://github.com/arbus/grunt-aglio",
+  "author": {
+    "name": "Subra",
+    "email": "subra@orangebrush.net"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arbus/grunt-aglio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/arbus/grunt-aglio/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/arbus/grunt-aglio/blob/master/LICENSE-MIT"
+    }
+  ],
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt": "~0.4.1"
+  },
+  "peerDependencies": {
+    "grunt": "~0.4.1"
+  },
+  "keywords": [
+    "gruntplugin",
+    "aglio,
+    "documentation",
+    "blueprint"
+  ],
+  "dependencies": {
+    "aglio": "~1.8.0"
+  }
+}
