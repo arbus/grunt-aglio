@@ -4,11 +4,15 @@ module.exports = function(grunt) {
   grunt.registerMultiTask('aglio', 'Grunt plugin to generate aglio documentation', function() {
     // Merge task-specific and/or target-specific options with these defaults.
     
-    var options = this.options({
+    var default_options = {
       seperator: "",
-      theme: "default"
-    });
-
+      theme: "default",
+      filter: function(src){
+        return src;
+      }
+    };
+    
+    var options = _.extend(default_options, this.data);
     // Make sure that the given theme exists
     aglio.getTemplates(function (err, names) {
       if(err){
@@ -19,6 +23,7 @@ module.exports = function(grunt) {
         options.theme = "default";
       }
     });
+
 
     this.files.forEach(function(f){
       var concattedSrc = f.src.filter(function(path){
@@ -31,13 +36,12 @@ module.exports = function(grunt) {
       }).map(function(path){
         return grunt.file.read(path);
       }).join(options.seperator);
-
-      aglio.render(concattedSrc, options.theme, function (err, html) {
+      aglio.render(options.filter(concattedSrc), options.theme, function (err, html) {
         if(err){
           grunt.fail.fatal("Code:"+err.code+'\n'+"Message:"+err.message);
         }
         grunt.file.write(f.dest, html);
-        grunt.log.ok("written to " + f.dest);
+        grunt.log.ok("Written to " + f.dest);
       });
     });
   });

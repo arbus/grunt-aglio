@@ -54,3 +54,61 @@ Type: `String`
 Default value: `empty string`
 
 When multiple source files are provided, the seperator is used to combine them together.
+
+#### options.filter
+Type: `Function`
+Default value: `function(src){return src;}`
+
+The src is passed through this function before passed into aglio. You can use this step to automatically add any tags, CI badges or build revision content into the src. Windows users can take advantage of this function to remove '\r' characters so that snowcrash will parse their files properly
+
+### Usage examples
+
+#### Basic
+This configuration allows you to split your API definition across multiple files and have it concatted in.
+```
+grunt.initConfig({
+  aglio: {
+    your_target:{
+      files:{
+        "dest/api.html": ["src/docs/section1.md", "src/docs/section2.md"]
+      },
+      theme: "slate"
+    }
+  },
+})
+```
+
+#### Basic w/ Filter
+This allows you to tag your documentation to a particular revision number that you may be using elsewhere
+```
+grunt.initConfig({
+  aglio: {
+    your_target:{
+      files:{
+        "dest/api.html": ["src/docs/section1.md", "src/docs/section2.md"]
+      },
+      theme: "slate",
+      filter: function(src){
+        return "> This documentation is correct as of " + revNum + "\n" + src;
+      }
+    }
+  },
+})
+```
+#### Windows users
+Adding this to your filter function will allow you to get rid of the `the use of carriage return(s) '\r' in source data isn't currently supported, please contact makers`  error from snowcrash.
+```
+grunt.initConfig({
+  aglio: {
+    your_target:{
+      files:{
+        "dest/api.html": ["src/docs/section1.md", "src/docs/section2.md"]
+      },
+      theme: "slate",
+      filter: function(src){
+        return src.replace(/\\r/g, '');
+      }
+    }
+  },
+})
+```
