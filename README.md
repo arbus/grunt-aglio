@@ -17,7 +17,7 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-aglio');
 ```
 
-## The "aglio" task
+## The Aglio task
 
 ### Overview
 In your project's Gruntfile, add a section named `aglio` to the data object passed into `grunt.initConfig()`.
@@ -47,10 +47,10 @@ An object with the key as the destination file with an array of src files. The s
 Type: `String`
 Default value: `default`
 
-The theme to use, defaults to the `default` theme.
+The theme to use, defaults to the `default` theme. Possible values are `default`, `flatly`, `slate` and `cyborg`.
 
 #### options.seperator
 Type: `String`
-Default value: `grunt.util.linefeed`
+Default value: `empty string`
 
-When multiple source files are provided, the seperator is used to combine them together. 
+When multiple source files are provided, the seperator is used to combine them together.

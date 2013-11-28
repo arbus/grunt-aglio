@@ -5,7 +5,7 @@ module.exports = function(grunt) {
     // Merge task-specific and/or target-specific options with these defaults.
     
     var options = this.options({
-      seperator: grunt.util.linefeed,
+      seperator: "",
       theme: "default"
     });
 
