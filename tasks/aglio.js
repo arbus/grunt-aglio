@@ -13,14 +13,19 @@ module.exports = function(grunt) {
     };
     
     var options = _.extend(default_options, this.data);
+
+
     // Make sure that the given theme exists
     aglio.getTemplates(function (err, names) {
       if(err){
         grunt.log.warn(err);
       }
       if(!_.contains(names, options.theme)){
-        grunt.log.warn(options.theme+" theme does not exist, revering to the default theme");
-        options.theme = "default";
+        // Is a custom theme file presented
+        if(!(options.theme.split('.').length > 1 && grunt.file.exists(options.theme))){
+          grunt.log.warn(options.theme+" theme does not exist, revering to the default theme");
+          options.theme = "default";  
+        }
       }
     });
 
