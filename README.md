@@ -48,6 +48,7 @@ Type: `String`
 Default value: `default`
 
 The theme to use, defaults to the `default` theme. Possible values are `default`, `flatly`, `slate` and `cyborg`.
+You can also pass in the path to your custom Jade templates here.
 
 #### options.seperator
 Type: `String`
@@ -95,6 +96,22 @@ grunt.initConfig({
   },
 })
 ```
+
+#### Custom Jade Template
+This configuration allows you to specify your own jade template. A guide on how to write your own can be found at the [aglio](https://github.com/danielgtaylor/aglio#custom-themes) repo. 
+```
+grunt.initConfig({
+  aglio: {
+    your_target:{
+      files:{
+        "dest/api.html": ["src/docs/section1.md", "src/docs/section2.md"]
+      },
+      theme: "slate"
+    }
+  },
+})
+```
+
 #### Windows users
 Adding this to your filter function will allow you to get rid of the `the use of carriage return(s) '\r' in source data isn't currently supported, please contact makers`  error from snowcrash.
 ```
@@ -106,7 +123,7 @@ grunt.initConfig({
       },
       theme: "slate",
       filter: function(src){
-        return src.replace(/\\r/g, '');
+        return src.replace(/\r/g, '');
       }
     }
   },
