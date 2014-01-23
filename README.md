@@ -129,3 +129,7 @@ grunt.initConfig({
   },
 })
 ```
+
+## Changelog
+
+0.1.5 - Made the task async, thanks to @ebonlieu
