@@ -2,6 +2,7 @@
 module.exports = function(grunt) {
   var _ = grunt.util._, aglio = require('aglio');
   grunt.registerMultiTask('aglio', 'Grunt plugin to generate aglio documentation', function() {
+    var done = this.async();
     // Merge task-specific and/or target-specific options with these defaults.
     
     var default_options = {
@@ -47,6 +48,7 @@ module.exports = function(grunt) {
         }
         grunt.file.write(f.dest, html);
         grunt.log.ok("Written to " + f.dest);
+        done();
       });
     });
   });
