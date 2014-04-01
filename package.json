@@ -37,6 +37,6 @@
     "blueprint"
   ],
   "dependencies": {
-    "aglio": "~1.12.1"
+    "aglio": "~1.13.0"
   }
 }
