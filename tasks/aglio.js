@@ -1,4 +1,7 @@
 'use strict';
+
+var path = require('path');
+
 module.exports = function(grunt) {
   var _ = grunt.util._, aglio = require('aglio');
   grunt.registerMultiTask('aglio', 'Grunt plugin to generate aglio documentation', function() {
@@ -14,18 +17,23 @@ module.exports = function(grunt) {
     };
     
     var options = _.extend(default_options, this.data);
-
-
+    
+    // wrap in object so we can update template by reference if custom
+    var aglioOptions = {
+      template: options.theme
+    };
+    
     // Make sure that the given theme exists
     aglio.getTemplates(function (err, names) {
       if(err){
         grunt.log.warn(err);
       }
-      if(!_.contains(names, options.theme)){
+      if(!_.contains(names, aglioOptions.template)){
         // Is a custom theme file presented
-        if(!(options.theme.split('.').length > 1 && grunt.file.exists(options.theme))){
-          grunt.log.warn(options.theme+" theme does not exist, revering to the default theme");
-          options.theme = "default";  
+        aglioOptions.template = path.resolve(aglioOptions.template) + '.jade';
+        if(!grunt.file.exists(aglioOptions.template)) {
+          grunt.log.warn(aglioOptions.template+" theme does not exist, reverting to the default theme");
+          aglioOptions.template = "default";
         }
       }
     });
@@ -42,7 +50,7 @@ module.exports = function(grunt) {
       }).map(function(path){
         return grunt.file.read(path);
       }).join(options.seperator);
-      aglio.render(options.filter(concattedSrc), options.theme, function (err, html) {
+      aglio.render(options.filter(concattedSrc), aglioOptions, function (err, html) {
         if(err){
           grunt.fail.fatal("Code:"+err.code+'\n'+"Message:"+err.message);
         }
