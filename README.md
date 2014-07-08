@@ -48,7 +48,7 @@ Type: `String`
 Default value: `default`
 
 The theme to use, defaults to the `default` theme. Possible values are `default`, `flatly`, `slate` and `cyborg`.
-You can also pass in the path to your custom Jade templates here.
+You can also pass in the path to your custom Jade templates here. The path is relative to your project root
 
 #### options.seperator
 Type: `String`
@@ -112,24 +112,19 @@ grunt.initConfig({
 })
 ```
 
-#### Windows users
-Adding this to your filter function will allow you to get rid of the `the use of carriage return(s) '\r' in source data isn't currently supported, please contact makers`  error from snowcrash.
-```
-grunt.initConfig({
-  aglio: {
-    your_target:{
-      files:{
-        "dest/api.html": ["src/docs/section1.md", "src/docs/section2.md"]
-      },
-      theme: "slate",
-      filter: function(src){
-        return src.replace(/\r/g, '');
-      }
-    }
-  },
-})
-```
-
 ## Changelog
 
-0.1.5 - Made the task async, thanks to @ebonlieu
++ 0.2.0
+  + Minor breaking change, paths for custom templates are now relative to the project root, thanks to @chesleybrown. 
+  + Bump aglio version to 1.14
++ 0.1.7 
+  + Bump aglio version to 1.13
++ 0.1.6 
+  + Bump aglio version to 1.12
++ 0.1.5 
+  + Made the task async, thanks to @ebonlieu
+
+## Contributers
+
++ @ebonlieu
++ @chesleybrown
