@@ -20,12 +20,16 @@
       "url": "https://github.com/arbus/grunt-aglio/blob/master/LICENSE-MIT"
     }
   ],
+  "scripts": {
+    "test": "mocha --recursive --ui tdd --reporter spec"
+  },
   "engines": {
     "node": ">= 0.8.0"
   },
   "devDependencies": {
+    "grunt": "~0.4.1",
     "grunt-contrib-jshint": "~0.6.0",
-    "grunt": "~0.4.1"
+    "mocha": "^1.20.1"
   },
   "peerDependencies": {
     "grunt": "~0.4.1"
