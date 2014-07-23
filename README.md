@@ -1,4 +1,8 @@
-# grunt-aglio [![Build Status](https://travis-ci.org/arbus/grunt-aglio.png?branch=master)](https://travis-ci.org/arbus/grunt-aglio)
+[![Dependency Status](https://david-dm.org/arbus/grunt-aglio.png)](https://david-dm.org/arbus/grunt-aglio)
+[![Build Status](https://travis-ci.org/arbus/grunt-aglio.png?branch=master)](https://travis-ci.org/arbus/grunt-aglio)
+
+grunt-aglio 
+===========
 
 > Grunt plugin to generate aglio documentation
 
