@@ -65,7 +65,7 @@ describe('grunt aglio', function(){
 		var configObj = {};
 		configObj[output] = destFiles;
 		grunt.config('aglio.test.files', configObj);
-		grunt.config('aglio.test.seperator', grunt.util.linefeed);
+		grunt.config('aglio.test.separator', grunt.util.linefeed);
 		grunt.task.run('aglio');
 		grunt.task.start();
 

@@ -7,22 +7,22 @@ module.exports = function(grunt) {
   grunt.registerMultiTask('aglio', 'Grunt plugin to generate aglio documentation', function() {
     var done = this.async();
     // Merge task-specific and/or target-specific options with these defaults.
-    
+
     var default_options = {
-      seperator: "",
+      separator: "",
       theme: "default",
       filter: function(src){
         return src;
       }
     };
-    
+
     var options = _.extend(default_options, this.data);
-    
+
     // wrap in object so we can update template by reference if custom
     var aglioOptions = {
       template: options.theme
     };
-    
+
     // Make sure that the given theme exists
     aglio.getTemplates(function (err, names) {
       if(err){
@@ -38,7 +38,6 @@ module.exports = function(grunt) {
       }
     });
 
-
     this.files.forEach(function(f){
       var concattedSrc = f.src.filter(function(path){
         if(!grunt.file.exists(path)){
@@ -49,7 +48,7 @@ module.exports = function(grunt) {
         }
       }).map(function(path){
         return grunt.file.read(path);
-      }).join(options.seperator);
+      }).join(options.separator);
       aglio.render(options.filter(concattedSrc), aglioOptions, function (err, html) {
         if(err){
           grunt.fail.fatal("Code:"+err.code+'\n'+"Message:"+err.message);
