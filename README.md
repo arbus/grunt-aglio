@@ -54,11 +54,11 @@ Default value: `default`
 The theme to use, defaults to the `default` theme. Possible values are `default`, `flatly`, `slate` and `cyborg`.
 You can also pass in the path to your custom Jade templates here. The path is relative to your project root
 
-#### options.seperator
+#### options.separator
 Type: `String`
 Default value: `empty string`
 
-When multiple source files are provided, the seperator is used to combine them together.
+When multiple source files are provided, the separator is used to combine them together.
 
 #### options.filter
 Type: `Function`
