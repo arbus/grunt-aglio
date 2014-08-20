@@ -117,7 +117,8 @@ grunt.initConfig({
 ```
 
 ## Changelog
-
++ 0.2.1
+  + Bug fix for getting templates thanks to @cjthompson
 + 0.2.0
   + Minor breaking change, paths for custom templates are now relative to the project root, thanks to @chesleybrown. 
   + Bump aglio version to 1.14
@@ -130,5 +131,6 @@ grunt.initConfig({
 
 ## Contributers
 
++ @cjthompson
 + @ebonlieu
 + @chesleybrown
