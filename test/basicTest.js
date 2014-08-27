@@ -65,7 +65,7 @@ describe('grunt aglio', function(){
 		var configObj = {};
 		configObj[output] = destFiles;
 		grunt.config('aglio.test.files', configObj);
-		grunt.config('aglio.test.separator', grunt.util.linefeed);
+		grunt.config('aglio.test.options.separator', grunt.util.linefeed);
 		grunt.task.run('aglio');
 		grunt.task.start();
 
@@ -81,7 +81,7 @@ describe('grunt aglio', function(){
     var configObj = {};
     configObj[output] = [path.resolve('./', 'test/sample.md')];
     grunt.config('aglio.test.files', configObj);
-    grunt.config('aglio.test.theme', './node_modules/aglio/templates/slate');
+    grunt.config('aglio.test.options.theme', './node_modules/aglio/templates/slate');
     grunt.task.run('aglio');
     grunt.task.start();
 
