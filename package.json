@@ -1,7 +1,7 @@
 {
   "name": "grunt-aglio",
   "description": "Grunt plugin to generate aglio documentation",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "homepage": "https://github.com/arbus/grunt-aglio",
   "author": {
     "name": "Subra",
