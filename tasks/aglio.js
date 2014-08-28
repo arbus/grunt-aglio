@@ -6,23 +6,16 @@ module.exports = function(grunt) {
   var _ = grunt.util._, aglio = require('aglio');
   grunt.registerMultiTask('aglio', 'Grunt plugin to generate aglio documentation', function() {
     var done = this.async();
-    // Merge task-specific and/or target-specific options with these defaults.
 
-    var default_options = {
+    // Merge task-specific and/or target-specific options with these defaults.
+    var options = this.options({
       separator: "",
       theme: "default",
       filter: function(src){
         return src;
       }
-    };
+    });
 
-    // This option was misspelled before, so we check if the wrong spelling was set
-    // and change it so old config files don't break
-    if(!_.isUndefined(this.data.seperator)){
-    	this.data.separator = this.data.seperator;
-    }
-
-    var options = _.extend(default_options, this.data);
     var files = this.files;
 
     // wrap in object so we can update template by reference if custom
