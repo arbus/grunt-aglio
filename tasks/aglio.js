@@ -3,7 +3,8 @@
 var path = require('path');
 
 module.exports = function(grunt) {
-  var _ = grunt.util._, aglio = require('aglio');
+  var _ = require('underscore');
+  var aglio = require('aglio');
   grunt.registerMultiTask('aglio', 'Grunt plugin to generate aglio documentation', function() {
     var done = this.async();
 
