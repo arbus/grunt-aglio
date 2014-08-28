@@ -126,6 +126,9 @@ grunt.initConfig({
 ```
 
 ## Changelog
++ 0.3.0
+  + Change options format to follow grunt standards thanks to @JSteunou
+  + Update aglio version to 1.15
 + 0.2.1
   + Bug fix for getting templates thanks to @cjthompson
 + 0.2.0
@@ -140,6 +143,7 @@ grunt.initConfig({
 
 ## Contributers
 
++ @JSteunou
 + @cjthompson
-+ @ebonlieu
 + @chesleybrown
++ @ebonlieu
