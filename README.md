@@ -126,6 +126,9 @@ grunt.initConfig({
 ```
 
 ## Changelog
++ 0.3.1
+  + Fix bug with multiple targets thanks to @cjthompson
+  + Update aglio version to 1.16
 + 0.3.0
   + Change options format to follow grunt standards thanks to @JSteunou
   + Update aglio version to 1.15
