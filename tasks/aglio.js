@@ -42,6 +42,24 @@ module.exports = function (grunt) {
       compile();
     });
 
+    var getLineNo = function(input, err) {
+      if (err.location && err.location.length) {
+        return input.substr(0, err.location[0].index).split('\n').length;
+      }
+    };
+
+    var logWarnings = function(warnings) {
+      var lineNo, warning, _i, _len, _ref, _results;
+      _ref = warnings || [];
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        warning = _ref[_i];
+        lineNo = getLineNo(warnings.input, warning) || 0;
+        _results.push(grunt.log.error("Line " + lineNo + ": " + warning.message + " (warning code " + warning.code + ")"));
+      }
+      return _results;
+    };
+
     function compile() {
       return when.all(when.map(files, function (f) {
         var concattedSrc = f.src.filter(function (path) {
@@ -56,6 +74,20 @@ module.exports = function (grunt) {
         }).join(options.separator);
         return when.promise(function (resolve, reject) {
           aglio.render(options.filter(concattedSrc), aglioOptions, function (err, html, warnings) {
+            var lineNo;
+
+            if (err) {
+              lineNo = getLineNo(err.input, err);
+              if (lineNo != null) {
+                grunt.log.error("Line " + lineNo + ": " + err.message + " (error code " + err.code + ")");
+              } else {
+                grunt.log.error(JSON.stringify(err));
+              }
+              return done(err);
+            }
+
+            logWarnings(warnings);
+
             if (typeof html == 'string') {
               grunt.file.write(f.dest, html);
               grunt.log.ok("Written to " + f.dest);
