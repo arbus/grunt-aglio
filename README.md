@@ -126,6 +126,8 @@ grunt.initConfig({
 ```
 
 ## Changelog
++ 0.3.2
+  + Output line no of errors thanks to @Fridus
 + 0.3.1
   + Fix bug with multiple targets thanks to @cjthompson
   + Update aglio version to 1.16
@@ -146,6 +148,7 @@ grunt.initConfig({
 
 ## Contributers
 
++ @Fridus
 + @JSteunou
 + @cjthompson
 + @chesleybrown
