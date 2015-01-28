@@ -69,6 +69,12 @@ Default value: `function(src) { return src; }`
 
 The src is passed through this function before passed into aglio. You can use this step to automatically add any tags, CI badges or build revision content into the src. Windows users can take advantage of this function to remove '\r' characters so that snowcrash will parse their files properly
 
+#### options.includePath
+Type: `String`
+Default value: `process.cwd()`
+
+Base directory for relative includes.
+
 ### Usage examples
 
 #### Basic
