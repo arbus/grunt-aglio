@@ -132,6 +132,8 @@ grunt.initConfig({
 ```
 
 ## Changelog
++ 0.3.3
+  + `includePath` option thanks to @LoicMahieu
 + 0.3.2
   + Output line no of errors thanks to @Fridus
 + 0.3.1
@@ -154,6 +156,7 @@ grunt.initConfig({
 
 ## Contributers
 
++ @LoicMahieu
 + @Fridus
 + @JSteunou
 + @cjthompson
