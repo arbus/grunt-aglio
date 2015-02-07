@@ -22,7 +22,8 @@ module.exports = function (grunt) {
 
     // wrap in object so we can update template by reference if custom
     var aglioOptions = {
-      template: options.theme
+      template: options.theme,
+      includePath: options.includePath
     };
 
     // Make sure that the given theme exists

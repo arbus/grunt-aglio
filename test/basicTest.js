@@ -146,6 +146,23 @@ describe('grunt aglio', function(){
     }, 4000);
   });
 
+  it('should be able to process include directive', function(done){
+    var configObj = {};
+    configObj[output] = [path.resolve('./', 'test/fixtures/sample-include.md')];
+    grunt.config('aglio.test.files', configObj);
+    grunt.config('aglio.test.options', {
+      includePath: path.join(__dirname, 'fixtures')
+    });
+
+    grunt.task.run('aglio');
+    grunt.task.start();
+
+    setTimeout(function(){
+      assert(fs.existsSync(output));
+      resetTempFiles(done);
+    }, 1000);
+  });
+
   after(function(done){
 		resetTempFiles(done);
 	})
