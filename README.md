@@ -132,6 +132,8 @@ grunt.initConfig({
 ```
 
 ## Changelog
++ 0.3.4
+  + Bump aglio version to 1.18
 + 0.3.3
   + `includePath` option thanks to @LoicMahieu
 + 0.3.2
