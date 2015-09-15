@@ -62,8 +62,6 @@ module.exports = function (grunt) {
       return _results;
     };
 
-    compile();
-
     function compile() {
       return when.all(when.map(files, function (f) {
         var concattedSrc = f.src.filter(function (path) {
@@ -92,7 +90,7 @@ module.exports = function (grunt) {
 
             logWarnings(warnings);
 
-            if (typeof html == 'string') {
+            if (typeof html === 'string') {
               grunt.file.write(f.dest, html);
               grunt.log.ok("Written to " + f.dest);
               resolve(true);
@@ -106,5 +104,7 @@ module.exports = function (grunt) {
           grunt.fail.fatal("Code:" + err.code + '\n' + "Message:" + err.err, err.warnings);
         });
     }
+
+    compile();
   });
 };
