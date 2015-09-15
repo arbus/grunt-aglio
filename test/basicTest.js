@@ -3,7 +3,7 @@ var fs = require('fs');
 var grunt = require('grunt');
 var path = require('path');
 
-var output = path.resolve('./', 'test/api.html');
+var output = path.resolve('./', 'test/sample.html');
 
 describe('grunt aglio', function(){
 	this.timeout(5000);
@@ -35,6 +35,7 @@ describe('grunt aglio', function(){
 	});
 
 	it('should do a basic run', function(done){
+    this.timeout(15000);
 		var configObj = {};
 		configObj[output] = [path.resolve('./', 'test/sample.md')];
 		grunt.config('aglio.test.files', configObj);
@@ -46,7 +47,7 @@ describe('grunt aglio', function(){
 				assert(exists);
 				resetTempFiles(done);
 			})
-		}, 1000);
+		}, 10000);
 
 	});
 
