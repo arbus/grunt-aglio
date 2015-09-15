@@ -40,7 +40,7 @@ grunt.initConfig({
         "dest/api.html": ["src/docs/section1.md", "src/docs/section2.md"]
       },
       options: {
-        theme: "default",
+        theme: "custom",
         separator: "\n"
       }
     }
@@ -54,8 +54,15 @@ grunt.initConfig({
 Type: `String`
 Default value: `default`
 
-The theme to use, defaults to the `default` theme. See [aglio](https://github.com/danielgtaylor/aglio) project for a list of possible template. Actual possible values are `default`, `flatly`, `slate` and `cyborg` with a *multi* version for each. i.e. 'default-multi'.
-You can also pass in the path to your custom Jade templates here. The path is relative to your project root
+The [custom theme](https://github.com/danielgtaylor/aglio#using-custom-themes) (a.k.a. theme engine) to use. The default/built-in theme ([olio](https://github.com/danielgtaylor/aglio/tree/olio-theme)) is used if the custom theme's node package is not installed.
+
+
+#### options.theme*
+
+Type: (varies) Default value (varies)
+
+**IMPORTANT NOTE**: As of aglio 2.x, [all theme options are theme-specific](https://github.com/danielgtaylor/aglio#writing-a-theme-engine) (see [changelog](https://github.com/danielgtaylor/aglio/blob/master/Changelog.md#200---2015-07-16) for details). As a result, this Grunt task does not validate such theme options -- they are passed directly to aglio, so it's possible this task will fail if a theme option is passed with an invalid value. See the [default theme's list of options](https://github.com/danielgtaylor/aglio/tree/olio-theme#theme-options) for examples names and values.
+
 
 #### options.separator
 Type: `String`
@@ -87,7 +94,7 @@ grunt.initConfig({
         "dest/api.html": ["src/docs/section1.md", "src/docs/section2.md"]
       },
       options: {
-        theme: "slate"
+        themeVariables: "slate"
       }
     }
   },
@@ -104,7 +111,7 @@ grunt.initConfig({
         "dest/api.html": ["src/docs/section1.md", "src/docs/section2.md"]
       },
       options: {
-        theme: "slate",
+        themeVariables: "slate",
         filter: function(src){
           return "> This documentation is correct as of " + revNum + "\n" + src;
         }

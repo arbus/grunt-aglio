@@ -20,28 +20,29 @@ module.exports = function (grunt) {
 
     var files = this.files;
 
-    // wrap in object so we can update template by reference if custom
-    var aglioOptions = {
-      template: options.theme,
-      includePath: options.includePath
-    };
+    if (options.theme === "default") {
+      // gracefully handle incorrect themeVariables value for detault theme.
+      // see https://github.com/danielgtaylor/aglio/tree/olio-theme#theme-options
+      // and https://github.com/danielgtaylor/aglio/tree/olio-theme/styles
+      if (options.themeVariables && !_.contains(['default', 'flatly', 'slate', 'cyborg'], options.themeVariables)) {
+        grunt.log.warn("Unrecognized theme variables '" + options.themeVariables + "'. Using 'default'.");
+        options.themeVariables = "default";
+      }
 
-    // Make sure that the given theme exists
-    aglio.getTemplates(function (err, names) {
-      if (err) {
-        grunt.log.warn(err);
+      grunt.verbose.writeln("Using olio (default) theme with theme variables '" + options.themeVariables + "'.");
+  
+    } else {
+      // catch theme (module) require before aglio catches it; fall back to
+      // default theme. incorrectly styled docs are beter than no docs at all.
+      try {
+        require('aglio-theme-' + options.theme);
+      } catch(e) {
+        options.theme = 'default';
+        grunt.log.warn("Aglio custom theme '" + options.theme + "' not found. Using default theme ('oglio'). Hint: 'npm install --save aglio-theme-" + options.theme + "'");
       }
-      if (!_.contains(names, aglioOptions.template)) {
-        // Is a custom theme file presented
-        aglioOptions.template = path.resolve(aglioOptions.template) + '.jade';
-        if (!grunt.file.exists(aglioOptions.template)) {
-          grunt.log.warn(aglioOptions.template + " theme does not exist, reverting to the default theme");
-          aglioOptions.template = "default";
-        }
-      }
-      // Compile must happen after the template is verified in the callback
-      compile();
-    });
+
+      grunt.verbose.writeln("Using custom theme '" + options.theme + "' with theme variables '" + options.themeVariables + "'.");
+    }
 
     var getLineNo = function(input, err) {
       if (err.location && err.location.length) {
@@ -61,6 +62,8 @@ module.exports = function (grunt) {
       return _results;
     };
 
+    compile();
+
     function compile() {
       return when.all(when.map(files, function (f) {
         var concattedSrc = f.src.filter(function (path) {
@@ -74,7 +77,7 @@ module.exports = function (grunt) {
           return grunt.file.read(path);
         }).join(options.separator);
         return when.promise(function (resolve, reject) {
-          aglio.render(options.filter(concattedSrc), aglioOptions, function (err, html, warnings) {
+          aglio.render(options.filter(concattedSrc), options, function (err, html, warnings) {
             var lineNo;
 
             if (err) {

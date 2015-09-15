@@ -1,0 +1,183 @@
+//- copied from https://github.com/danielgtaylor/aglio/blob/olio-theme-1.0.4/templates/mixins.jade
+mixin Badge(method)
+    //- Draw a badge for a given HTTP method
+    case method
+        when 'GET'
+            span.badge.get: i.fa.fa-arrow-down
+        when 'HEAD'
+            span.badge.head: i.fa.fa-info-circle
+        when 'OPTIONS'
+            span.badge.options: i.fa.fa-dot-circle-o
+        when 'POST'
+            span.badge.post: i.fa.fa-plus
+        when 'PUT'
+            span.badge.put: i.fa.fa-pencil
+        when 'PATCH'
+            span.badge.patch: i.fa.fa-pencil
+        when 'DELETE'
+            span.badge.delete: i.fa.fa-times
+        default
+            span.badge: i.fa.fa-dot-circle-o
+
+mixin Nav()
+    //- Draw a navigation bar, which includes links to individual
+    //- resources and actions.
+    nav
+        if self.api.navItems && self.api.navItems.length
+            .resource-group
+                .heading
+                  .chevron
+                    i.open.fa.fa-angle-down
+                  a(href='#top') Overview
+                .collapse-content
+                  ul: each item in self.api.navItems
+                    li
+                      a(href=item[1])= item[0]
+        each resourceGroup in self.api.resourceGroups || []
+            .resource-group
+                .heading
+                  .chevron
+                    i.open.fa.fa-angle-down
+                  a(href=resourceGroup.elementLink)= resourceGroup.name || 'Resource Group'
+                .collapse-content
+                  ul
+                    each item in resourceGroup.navItems || []
+                      li
+                        a(href=item[1])= item[0]
+                    each resource in resourceGroup.resources || []
+                      li
+                          if !self.condenseNav || (resource.actions.length != 1)
+                              a(href=resource.elementLink)= resource.name || 'Resource'
+                              ul: each action in resource.actions || []
+                                  li: a(href=action.elementLink)
+                                    +Badge(action.method)
+                                    = action.name || action.method + ' ' + (action.attributes && action.attributes.uriTemplate || resource.uriTemplate)
+                          else
+                              - var action = resource.actions[0]
+                              a(href=action.elementLink)
+                                  +Badge(action.method)
+                                  = action.name || resource.name || action.method + ' ' + (action.attributes && action.attributes.uriTemplate || resource.uriTemplate)
+        //- Link to the API hostname, e.g. api.yourcompany.com
+        each meta in self.api.metadata || {}
+            if meta.name == 'HOST'
+                p(style="text-align: center; word-wrap: break-word;")
+                    a(href=meta.value)= meta.value
+
+mixin Parameters(params)
+    //- Draw a definition list of parameter names, types, defaults,
+    //- examples and descriptions.
+    .title
+        strong Parameters
+        .collapse-button.show
+            span.close Hide
+            span.open Show
+    .collapse-content
+        dl.inner: each param in params || []
+            dt= self.urldec(param.name)
+            dd
+                code= param.type || 'string'
+                | &nbsp;
+                if param.required
+                    span.required (required)
+                else
+                    span (optional)
+                | &nbsp;
+                if param.default
+                    span.text-info.default
+                        strong Default:&nbsp;
+                        span= param.default
+                    | &nbsp;
+                if param.example
+                    span.text-muted.example
+                        strong Example:&nbsp;
+                        span= param.example
+                != self.markdown(param.description)
+                if param.values.length
+                    p.choices
+                        strong Choices:&nbsp;
+                        each value in param.values
+                            code= self.urldec(value.value)
+                            = ' '
+
+mixin RequestResponse(title, request, resourceGroup, resource, action)
+    .title
+        strong
+            = title
+            if request.name
+                | &nbsp;&nbsp;
+                code= request.name
+        if request.hasContent
+            .collapse-button
+                span.close Hide
+                span.open Show
+    if request.hasContent
+        .collapse-content: .inner
+            if request.description
+                .description!= self.markdown(request.description)
+
+            if Object.keys(request.headers).length
+                h5 Headers
+                pre: code
+                    each item, index in request.headers
+                        != self.highlight(item.name + ': ' + item.value, 'http')
+                        if index < request.headers.length - 1
+                          br
+                div(style="height: 1px;")
+            if request.body
+                h5 Body
+                pre: code
+                    != self.highlight(request.body, null, ['json', 'yaml', 'xml', 'javascript'])
+                div(style="height: 1px;")
+            if request.schema
+                h5 Schema
+                pre: code
+                    != self.highlight(request.schema, null, ['json', 'yaml', 'xml'])
+                div(style="height: 1px;")
+
+mixin Examples(resourceGroup, resource, action)
+    each example in action.examples
+        each request in example.requests
+            +RequestResponse('Request', request, resourceGroup, resource, action)
+        each response in example.responses
+            +RequestResponse('Response', response, resourceGroup, resource, action)
+
+mixin Content()
+    //- Page header and API description
+    header
+        h1#top= self.api.name || 'API Documentation'
+
+    if self.api.descriptionHtml
+        != self.api.descriptionHtml
+
+    //- Loop through and display information about all the resource
+    //- groups, resources, and actions.
+    each resourceGroup in self.api.resourceGroups || []
+        section.resource-group(id=resourceGroup.elementId)
+            h2.group-heading= resourceGroup.name || 'Resource Group'
+                a.permalink(href=resourceGroup.elementLink): &para;
+            if resourceGroup.descriptionHtml
+                != resourceGroup.descriptionHtml
+
+            each resource in resourceGroup.resources || []
+                .resource(id=resource.elementId)
+                    h3= resource.name || ((resource.actions[0] != null) && resource.actions[0].name) || 'Resource'
+                        a.permalink(href=resource.elementLink): &para;
+                    if resource.description
+                        != self.markdown(resource.description)
+
+                    each action in resource.actions || []
+                        .action(class=action.methodLower, id=action.elementId)
+                            h4
+                                .name= action.name
+                                a.method(class=action.methodLower, href=action.elementLink)
+                                    = action.method
+                                code.uri= self.urldec(action.uriTemplate)
+                            if action.description
+                                != self.markdown(action.description)
+
+                            //- A list of sub-sections for parameters, requests
+                            //- and responses.
+                            if action.parameters.length
+                                +Parameters(action.parameters)
+                            if action.examples
+                                +Examples(resourceGroup, resource, action)

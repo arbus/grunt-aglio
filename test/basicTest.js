@@ -77,11 +77,13 @@ describe('grunt aglio', function(){
 		}, 1000);
 	});
 
+	// NOTE: all theme* options are theme-specific as of aglio 2.x. as such,
+	// testing for them may not be worthwhile.
   it('should use a custom jade template', function (done) {
     var configObj = {};
     configObj[output] = [path.resolve('./', 'test/sample.md')];
     grunt.config('aglio.test.files', configObj);
-    grunt.config('aglio.test.options.theme', './node_modules/aglio/templates/slate');
+    grunt.config('aglio.test.options.themeTemplate', 'test/fixtures/index-custom.jade');
     grunt.task.run('aglio');
     grunt.task.start();
 
@@ -90,7 +92,7 @@ describe('grunt aglio', function(){
         assert(exists);
         // Make sure that it used the slate theme
         var contents = fs.readFileSync(output, 'utf8');
-        assert(contents.indexOf('//netdna.bootstrapcdn.com/bootswatch/3.1.1/slate/bootstrap.min.css') > -1);
+        assert(contents.indexOf('CUSTOM_JADE_TEMPLATE') > -1);
         resetTempFiles(done);
       })
     }, 1000);
