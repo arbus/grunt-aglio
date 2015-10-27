@@ -99,56 +99,6 @@ describe('grunt aglio', function(){
     }, 1000);
   });
 
-  it('should be able to create multiple output files', function(done){
-    // Split out sample.md into multiple small files
-    var sampleFile = fs.readFileSync(path.resolve('./', 'test/sample.md'), {
-      encoding: 'utf8'
-    }).split("\n");
-
-    var destFiles = [];
-    for(var i = 0; i < sampleFile.length; i++){
-      fs.writeFileSync(path.resolve('./', 'test/'+i+'.md'), sampleFile[i]);
-      destFiles.push(path.resolve('./', 'test/'+i+'.md'));
-    }
-
-    var configObj = {};
-    var configObj2 = {};
-    var configObj3 = {};
-    var configObj4 = {};
-    var configObj5 = {};
-    var output2 = output.substr(0, output.length - 4) + '2.html';
-    var output3 = output.substr(0, output.length - 4) + '3.html';
-    var output4 = output.substr(0, output.length - 4) + '4.html';
-    var output5 = output.substr(0, output.length - 4) + '5.html';
-    configObj[output2] = path.resolve('./', 'test/sample.md');
-    configObj[output] = destFiles;
-    configObj2[output2] = path.resolve('./', 'test/sample.md');
-    configObj3[output3] = path.resolve('./', 'test/sample.md');
-    configObj4[output4] = path.resolve('./', 'test/sample.md');
-    configObj5[output5] = path.resolve('./', 'test/sample.md');
-    grunt.config('aglio.test.files', configObj);
-    grunt.config('aglio.test.options.separator', grunt.util.linefeed);
-    grunt.config('aglio.test2.files', configObj2);
-    grunt.config('aglio.test2.options.separator', grunt.util.linefeed);
-    grunt.config('aglio.test3.files', configObj3);
-    grunt.config('aglio.test3.options.separator', grunt.util.linefeed);
-    grunt.config('aglio.test4.files', configObj4);
-    grunt.config('aglio.test4.options.separator', grunt.util.linefeed);
-    grunt.config('aglio.test5.files', configObj5);
-    grunt.config('aglio.test5.options.separator', grunt.util.linefeed);
-    grunt.task.run('aglio');
-    grunt.task.start();
-
-    setTimeout(function(){
-      assert(fs.existsSync(output));
-      assert(fs.existsSync(output2));
-      assert(fs.existsSync(output3));
-      assert(fs.existsSync(output4));
-      assert(fs.existsSync(output5));
-      resetTempFiles(done);
-    }, 4000);
-  });
-
   it('should be able to process include directive', function(done){
     var configObj = {};
     configObj[output] = [path.resolve('./', 'test/fixtures/sample-include.md')];

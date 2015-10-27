@@ -1,5 +1,17 @@
 language: node_js
+sudo: false
 node_js:
   - "0.10"
+  - "0.12"
+  - "3"
+  - "4"
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - gcc-4.8
+    - g++-4.8
+env: CXX="g++-4.8" CC="gcc-4.8"
 before_script:
   - npm install -g mocha
