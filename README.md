@@ -139,6 +139,8 @@ grunt.initConfig({
 ```
 
 ## Changelog
++ 0.4.1
+  + Bump aglio version to 2.2
 + 0.4.0
   + Bump aglio version to 2.1 thanks to @blech
 + 0.3.4
